@@ -29,17 +29,6 @@
 #define kTagRotatedView     101
 #define kTagLabelView       102
 
-NSUInteger DeviceSystemMajorVersion()
-{
-    static NSUInteger _deviceSystemMajorVersion = -1;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        _deviceSystemMajorVersion = [[[[[UIDevice currentDevice] systemVersion] componentsSeparatedByString:@"."] objectAtIndex:0] intValue];
-    });
-    return _deviceSystemMajorVersion;
-}
-
 @interface ACECell : UITableViewCell
 @property (nonatomic, retain) UIView *separatorView;
 @end
@@ -234,23 +223,12 @@ NSUInteger DeviceSystemMajorVersion()
         
     } else {
         NSString * string = [self stringForObjectAtIndex:indexPath.row];
-        CGFloat width;
-        
-        if (DeviceSystemMajorVersion() >= 7) {
-            width = [string boundingRectWithSize: self.frame.size
-                                         options: NSStringDrawingUsesLineFragmentOrigin
-                                      attributes: @{NSFontAttributeName : self.font}
-                                         context: nil].size.width;
-            width = ceilf(width);
-            width+=1;
-        } else{
-            width = [string sizeWithFont:self.font constrainedToSize:self.frame.size].width;
-        }
-        
-        if (width == 0) {
-            // bigger than the screen
-            return self.frame.size.width;
-        }
+        CGFloat width = [string boundingRectWithSize: self.frame.size
+                                             options: NSStringDrawingUsesLineFragmentOrigin
+                                          attributes: @{NSFontAttributeName : self.font}
+                                             context: nil].size.width;
+        width = ceilf(width);
+        width += 1;
         
         // add some margins
         return width + (kDefaultMargin * 2) + 1.0f;
