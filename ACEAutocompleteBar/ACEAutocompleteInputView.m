@@ -24,7 +24,7 @@
 #import "ACEAutocompleteBar.h"
 
 #define kDefaultHeight      44.0f
-#define kDefaultMargin      5.0f
+#define kDefaultMargin      10.0f
 
 #define kTagRotatedView     101
 #define kTagLabelView       102
@@ -79,7 +79,7 @@ NSUInteger DeviceSystemMajorVersion()
         
         _suggestionListView.showsVerticalScrollIndicator = NO;
         _suggestionListView.showsHorizontalScrollIndicator = NO;
-        _suggestionListView.backgroundColor = [UIColor clearColor];
+        _suggestionListView.backgroundColor = [UIColor colorWithRed:186.f/255.f green:191.f/255.f blue:200.f/255.f alpha:1.0f];
         _suggestionListView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         _suggestionListView.dataSource = self;
@@ -121,7 +121,7 @@ NSUInteger DeviceSystemMajorVersion()
 - (UIFont *)font
 {
     if (_font == nil) {
-        _font = [UIFont boldSystemFontOfSize:18.0f];
+         _font = [UIFont systemFontOfSize:18.0f];
     }
     return _font;
 }
@@ -129,7 +129,7 @@ NSUInteger DeviceSystemMajorVersion()
 - (UIColor *)textColor
 {
     if (_textColor == nil) {
-        _textColor = [UIColor darkTextColor];
+         _textColor = [UIColor whiteColor];
     }
     return _textColor;
 }
@@ -288,9 +288,7 @@ NSUInteger DeviceSystemMajorVersion()
         cell = [[ACECell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
 		cell.bounds	= CGRectMake(0, 0, self.bounds.size.height, self.frame.size.height);
 		cell.contentView.frame = cell.bounds;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
-        
         
         
 		
@@ -317,8 +315,8 @@ NSUInteger DeviceSystemMajorVersion()
     cell.separatorView = [[UIView alloc] init];
     
     CGFloat cellHeight = [self tableView:_suggestionListView heightForRowAtIndexPath:indexPath];
-    cell.separatorView.frame = CGRectMake(cell.contentView.frame.origin.x, cellHeight-1, cell.contentView.frame.size.width, 1);
-    cell.separatorView.backgroundColor = [UIColor whiteColor];
+    cell.separatorView.frame = CGRectMake(cell.contentView.frame.origin.x, cellHeight-1.3, cell.contentView.frame.size.width, 1.3);
+    cell.separatorView.backgroundColor = [UIColor colorWithRed:210.f/255.f green:213.f/255.f blue:219.f/255.f alpha:1.0f];
     [cell addSubview:cell.separatorView];
     
     // customize the cell view if the data source support it, just use the text otherwise
@@ -331,6 +329,7 @@ NSUInteger DeviceSystemMajorVersion()
         // set the default properties
         textLabel.font = self.font;
         textLabel.textColor = self.textColor;
+        textLabel.highlightedTextColor = [UIColor blackColor];
         textLabel.text = [self stringForObjectAtIndex:indexPath.row];
     }
     
